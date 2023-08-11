@@ -1,33 +1,34 @@
 # SINGLESHOTPOSE
- 
 This is the development version of the code for the following paper:
 
 Bugra Tekin, Sudipta N. Sinha and Pascal Fua, "Real-Time Seamless Single Shot 6D Object Pose Prediction", CVPR 2018. 
-
 The original repository for the codebase for the above paper can be found in the following [link](https://github.com/Microsoft/singleshotpose/).
+The code is written by [Bugra Tekin](http://bugratekin.info) and is built on the YOLOv2 implementation of the github user [@marvis](https://github.com/marvis)
 
-### Introduction
 
-We propose a single-shot approach for simultaneously detecting an object in an RGB image and predicting its 6D pose without requiring multiple stages or having to examine multiple hypotheses. The key component of our method is a new CNN architecture inspired by the YOLO network design that directly predicts the 2D image locations of the projected vertices of the object's 3D bounding box. The object's 6D pose is then estimated using a PnP algorithm. [Paper](http://openaccess.thecvf.com/content_cvpr_2018/papers/Tekin_Real-Time_Seamless_Single_CVPR_2018_paper.pdf), [arXiv](https://arxiv.org/abs/1711.08848)
-
-![SingleShotPose](https://btekin.github.io/single_shot_pose.png)
-
-#### Citation
-If you use this code, please cite the following
-> @inproceedings{tekin18,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TITLE = {{Real-Time Seamless Single Shot 6D Object Pose Prediction}}, 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AUTHOR = {Tekin, Bugra and Sinha, Sudipta N. and Fua, Pascal},  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOKTITLE =  {CVPR},  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YEAR = {2018}  
-}
-
-### License
-
-SingleShotPose is released under the MIT License (refer to the LICENSE file for details).
-
-#### Environment and dependencies
+## Environment and dependencies
 
 The code is tested on **Windows** with CUDA v8 and cudNN v5.1. The implementation is based on **PyTorch 0.4.1** and tested on **Python3.6**. The code requires the following dependencies that could be installed with conda or pip: numpy, scipy, PIL, opencv-python. For an earlier version that is compatible with PyTorch 0.3.1 and tested on Python2.7, please see ```py2``` folder.
+
+
+### 설치 방법 정리 (in our experiment)
+* PyCharm, Anaconda --> 3.6 Python 가상환경으로 선택
+* PyTorch v1.8.0 + CUDA 11.1 설치
+
+      conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge <br>
+
+* OpenCV 설치
+
+      pip3 install opencv-python
+      
+* Scipy 1.2.0 설치
+
+      pip3 install scipy==1.2.0
+      
+* Pillow 8.2.2 설치
+
+      pip3 install pillow==8.2.0
+  
 
 #### Downloading and preparing the data
 
@@ -44,6 +45,7 @@ tar xf multi_obj_pose_estimation/backup_multi.tar -C multi_obj_pose_estimation/
 tar xf VOCtrainval_11-May-2012.tar
 ```
 Alternatively, you can directly go to the links above and manually download and extract the files at the corresponding directories. The whole download process might take a long while (~60 minutes). Please also be aware that access to OneDrive in some countries might be limited.
+
 
 #### Training the model
 
@@ -147,12 +149,3 @@ Please also make sure to adjust the following values in the data and model confi
 - You should further change the image size and camera parameters (```fx```, ```fy```, ```u0```, ```v0```, ```width```, ```height```) in the data configuration files with the ones specific to your dataset. 
 
 While creating a training dataset, sampling a large number of viewpoints/distances and modeling a large variability of illumination/occlusion/background settings would be important in increasing the generalization ability of the approach on your dataset. If you would like to adjust some model & loss parameters (e.g. weighthing factor for different loss terms) for your own purposes, you could do so in the model configuration file (```yolo-pose.cfg```).
-
-
-#### Acknowledgments
-
-The code is written by [Bugra Tekin](http://bugratekin.info) and is built on the YOLOv2 implementation of the github user [@marvis](https://github.com/marvis)
-
-#### Contact
-
-For any questions or bug reports, please contact [Bugra Tekin](http://bugratekin.info)
