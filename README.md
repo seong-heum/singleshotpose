@@ -19,7 +19,7 @@ The code is tested on **Windows** with CUDA v8 and cudNN v5.1. The implementatio
 
 * OpenCV 설치
 
-      pip3 install opencv-python
+      pip3 install opencv-python==4.6.0.66
       
 * Scipy 1.2.0 설치
 
