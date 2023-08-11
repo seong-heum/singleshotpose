@@ -15,7 +15,7 @@ The code is tested on **Windows** with CUDA v8 and cudNN v5.1. The implementatio
 * PyCharm, Anaconda --> 3.6 Python 가상환경으로 선택
 * PyTorch v1.8.0 + CUDA 11.1 설치
 
-      conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge <br>
+      conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
 
 * OpenCV 설치
 
@@ -131,6 +131,7 @@ Respectively, 21 numbers correspond to the following: 1st number: class label, 2
  
 The coordinates are normalized by the image width and height: ```x / image_width``` and ```y / image_height```. This is useful to have similar output ranges for the coordinate regression and object classification tasks. 
 
+
 #### Tips for training on your own dataset
 
 We train and test our models on the LINEMOD dataset using the same train/test splits with [the BB8 method](https://arxiv.org/pdf/1703.10896.pdf) to validate our approach. If you would like to train a model on your own dataset, you could create the same folder structure with the provided LINEMOD dataset and adjust the paths in cfg/[OBJECT].data, [DATASET]/[OBJECT]/train.txt and [DATASET]/[OBJECT]/test.txt files. The folder for each object should contain the following: 
@@ -149,3 +150,18 @@ Please also make sure to adjust the following values in the data and model confi
 - You should further change the image size and camera parameters (```fx```, ```fy```, ```u0```, ```v0```, ```width```, ```height```) in the data configuration files with the ones specific to your dataset. 
 
 While creating a training dataset, sampling a large number of viewpoints/distances and modeling a large variability of illumination/occlusion/background settings would be important in increasing the generalization ability of the approach on your dataset. If you would like to adjust some model & loss parameters (e.g. weighthing factor for different loss terms) for your own purposes, you could do so in the model configuration file (```yolo-pose.cfg```).
+
+
+#### 수정 사항 정리
+--> region_loss.py <br>
+  134. 버전 업데이트에 따른 문법 변경 <br>
+**# nProposals = int((conf > 0.25).sum().data[0])** <br>
+**nProposals = int((conf > 0.25).sum().data)** <br>
+  173. 버전 업데이트에 따른 문법 변경 <br>
+**#print('%d: nGT %d, recall %d, proposals %d, loss: x %f, y %f, conf %f, total %f' % (self.seen, nGT, nCorrect, nProposals, loss_x.data[0], loss_y.data[0], loss_conf.data[0], loss.data[0]))** <br>
+**print('%d: nGT %d, recall %d, proposals %d, loss: x %f, y %f, conf %f, total %f' % (self.seen, nGT, nCorrect, nProposals, loss_x.data, loss_y.data, loss_conf.data, loss.data))** <br>
+
+--> train.py <br>
+  309. 백그라운드 영상 경로 변경 <br>
+**# bg_file_names = get_all_files('VOCdevkit/VOC2012/JPEGImages')** <br>
+**bg_file_names = get_all_files('BG/JPEGImages')** <br>
